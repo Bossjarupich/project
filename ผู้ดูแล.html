@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style>
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+        .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+    </style>
+</head>
+<body>
+
+<div class="w3-top">
+    <div class="w3-bar w3-green w3-card w3-left-align w3-large">
+        <a href="ระบบการลา วิทยาลัยเทคนิคนครขอนแก่น.html" class="w3-bar-item w3-button w3-padding-large w3-green">หน้าหลัก</a>
+        <a href="ผู้ดูแล.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">ผู้ดูแล</a>
+    </div>
+</div>
+
+<header class="w3-container w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-jumbo">Admin Panel</h1>
+    <div class="w3-container w3-center">
+        <h2>ข้อมูลการลา</h2>
+        <table class="w3-table w3-striped w3-bordered" style="max-width: 800px; margin: auto;">
+            <thead>
+                <tr>
+                    <th>ชื่อ-สกุล</th>
+                    <th>เหตุผลการลา</th>
+                    <th>วันที่ลา</th>
+                    <th>จัดการ</th> 
+                </tr>
+            </thead>
+            <tbody id="leaveData">
+                
+            </tbody>
+        </table>
+    </div>
+</header>
+
+<script>
+    
+    function getLeaveData() {
+        const leaveData = JSON.parse(localStorage.getItem("leaveData")) || [];
+        const table = document.getElementById("leaveData");
+        table.innerHTML = ""; 
+
+        leaveData.forEach((leave, index) => {
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${leave.name}</td>
+                <td>${leave.reason}</td>
+                <td>${leave.date}</td>
+                <td><button class="w3-button w3-red" onclick="deleteLeave(${index})">ลบ</button></td> <!-- ปุ่มลบ -->
+            `;
+        });
+    }
+
+    
+    function deleteLeave(index) {
+        const leaveData = JSON.parse(localStorage.getItem("leaveData")) || [];
+        leaveData.splice(index, 1); 
+        localStorage.setItem("leaveData", JSON.stringify(leaveData)); 
+        getLeaveData();
+    }
+
+   
+    window.onload = getLeaveData;
+</script>
+
+</body>
+</html>
